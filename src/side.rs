@@ -23,46 +23,46 @@ impl From<usize> for Side {
     }
 }
 
+impl From<Side> for usize {
+    fn from(value: Side) -> Self {
+        match value {
+            Side::L => 0,
+            Side::R => 1,
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
     use std::panic;
 
     #[test]
-    fn swap_left_to_right() {
+    fn swap() {
         assert_eq!(Side::L.swap(), Side::R);
-    }
-
-    #[test]
-    fn swap_right_to_left() {
         assert_eq!(Side::R.swap(), Side::L);
     }
 
     #[test]
-    fn left_as_number_0() {
-        assert_eq!(Side::L as usize, 0);
+    fn as_usize() {
+        assert_eq!(Side::L as usize, 0usize);
+        assert_eq!(Side::R as usize, 1usize);
     }
 
     #[test]
-    fn right_as_number_1() {
-        assert_eq!(Side::R as usize, 1);
-    }
-
-    #[test]
-    fn left_from_number_0() {
+    fn from_into_usize() {
         assert_eq!(Side::from(0), Side::L);
-    }
-
-    #[test]
-    fn right_from_number_1() {
         assert_eq!(Side::from(1), Side::R);
-    }
 
-    #[test]
-    fn panic_if_created_from_number_larger_than_1() {
         let hook = panic::take_hook();
         panic::set_hook(Box::new(|_| {}));
         assert!(panic::catch_unwind(|| Side::from(2)).is_err());
         panic::set_hook(hook);
+
+        let left: usize = Side::L.into();
+        assert_eq!(left, 0);
+
+        let right: usize = Side::R.into();
+        assert_eq!(right, 1);
     }
 }

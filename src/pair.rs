@@ -164,41 +164,25 @@ mod tests {
     use super::*;
 
     #[test]
-    fn from_array() {
-        let left = 0;
-        let right = 1;
+    fn from_into_array() {
+        let (left, right) = (0, 1);
         let pair = Pair::from([left, right]);
         assert_eq!(pair[Side::L], left);
         assert_eq!(pair[Side::R], right);
-    }
-
-    #[test]
-    fn into_array() {
-        let left = 0;
-        let right = 1;
-        let pair: Pair<i32> = [left, right].into();
 
         let arr: [i32; 2] = pair.into();
         assert_eq!(arr, [left, right]);
     }
 
     #[test]
-    fn index_trait() {
-        let left = 0;
-        let right = 1;
-        let pair: Pair<i32> = [left, right].into();
-        assert_eq!(pair[Side::L], left);
-        assert_eq!(pair[Side::R], right);
-    }
-
-    #[test]
-    fn index_mut_trait() {
-        let left = 0;
-        let right = 1;
+    fn index_by_side() {
+        let (left, right) = (0, 1);
         let mut pair: Pair<i32> = [left, right].into();
 
-        let new_left = 1;
-        let new_right = 2;
+        assert_eq!(pair[Side::L], left);
+        assert_eq!(pair[Side::R], right);
+
+        let (new_left, new_right) = (0, 1);
         pair[Side::L] = new_left;
         pair[Side::R] = new_right;
 
@@ -207,9 +191,8 @@ mod tests {
     }
 
     #[test]
-    fn swap_left_right_inplace() {
-        let left = 0;
-        let right = 1;
+    fn swap() {
+        let (left, right) = (0, 1);
         let mut pair: Pair<i32> = [left, right].into();
         pair.swap();
 
@@ -217,9 +200,8 @@ mod tests {
     }
 
     #[test]
-    fn into_iter_trait() {
-        let left = 0;
-        let right = 1;
+    fn into_iter() {
+        let (left, right) = (0, 1);
         let pair: Pair<i32> = [left, right].into();
 
         let mut it = pair.into_iter();
