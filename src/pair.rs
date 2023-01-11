@@ -45,7 +45,7 @@ impl<T> Pair<T> {
 
     pub fn map<U, F>(self, f: F) -> Pair<U>
     where
-        F: Fn(T) -> U
+        F: Fn(T) -> U,
     {
         self.0.map(f).into()
     }
@@ -54,6 +54,25 @@ impl<T> Pair<T> {
         let [l1, r1] = self.0;
         let [l2, r2]: [U; 2] = other.into();
         [(l1, l2), (r1, r2)].into()
+    }
+
+    pub fn compare<'a, U>(self, other: &'a Pair<U>) -> Pair<(T, &'a U)> {
+        let [l1, r1] = self.0;
+        [(l1, other.get_left()), (r1, other.get_right())].into()
+    }
+
+    pub fn merge<U, V, F>(self, other: Pair<U>, f: F) -> Pair<V>
+    where
+        F: Fn(T, U) -> V,
+    {
+        self.zip(other).map(|(t, u)| f(t, u))
+    }
+
+    pub fn apply<U, V, F>(self, other: &Pair<U>, f: F) -> Pair<V>
+    where
+        F: Fn(T, &U) -> V,
+    {
+        self.compare(other).map(|(t, u)| f(t, u))
     }
 }
 
@@ -139,7 +158,6 @@ impl<T> Pair<Option<T>> {
         self.map(|i| i.map(|v| f(v)))
     }
 }
-
 
 #[cfg(test)]
 mod tests {
