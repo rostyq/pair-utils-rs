@@ -214,4 +214,33 @@ mod tests {
         assert_eq!(it.next().unwrap(), right);
         assert_eq!(it.next(), None);
     }
+
+    #[test]
+    fn option() {
+        let (left, right) = (Some(0), Some(1));
+        let both_pair = Pair::new(left, right);
+        let none_pair: Pair<Option<()>> = Pair::new(None, None);
+        let left_pair = Pair::new(left, None);
+        let right_pair = Pair::new(None, right);
+
+        assert!(both_pair.both());
+        assert!(both_pair.any());
+        assert!(!both_pair.none());
+        assert!(!both_pair.one());
+
+        assert!(!none_pair.both());
+        assert!(!none_pair.any());
+        assert!(none_pair.none());
+        assert!(!none_pair.one());
+
+        assert!(!left_pair.both());
+        assert!(left_pair.any());
+        assert!(!left_pair.none());
+        assert!(left_pair.one());
+
+        assert!(!right_pair.both());
+        assert!(right_pair.any());
+        assert!(!right_pair.none());
+        assert!(right_pair.one());
+    }
 }
