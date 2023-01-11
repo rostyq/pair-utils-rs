@@ -35,6 +35,10 @@ impl<T> Paired for Pair<T> {
 }
 
 impl<T> Pair<T> {
+    pub fn new(left: T, right: T) -> Self {
+        Self([left, right])
+    }
+
     pub fn iter(&self) -> std::slice::Iter<T> {
         self.0.iter()
     }
@@ -177,7 +181,7 @@ mod tests {
     #[test]
     fn index_by_side() {
         let (left, right) = (0, 1);
-        let mut pair: Pair<i32> = [left, right].into();
+        let mut pair = Pair::new(left, right);
 
         assert_eq!(pair[Side::L], left);
         assert_eq!(pair[Side::R], right);
@@ -193,7 +197,7 @@ mod tests {
     #[test]
     fn swap() {
         let (left, right) = (0, 1);
-        let mut pair: Pair<i32> = [left, right].into();
+        let mut pair = Pair::new(left, right);
         pair.swap();
 
         assert_eq!(pair, Pair::from([right, left]));
@@ -202,7 +206,7 @@ mod tests {
     #[test]
     fn into_iter() {
         let (left, right) = (0, 1);
-        let pair: Pair<i32> = [left, right].into();
+        let pair = Pair::new(left, right);
 
         let mut it = pair.into_iter();
 
