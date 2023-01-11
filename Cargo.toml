@@ -2,6 +2,9 @@
 name = "pair-utils"
 version = "0.1.0"
 edition = "2021"
+authors = ["Rostyslav Bohomaz <rostyslav.db@gmail.com>"]
+license = "MIT"
+description = "Convinient struct for paired types"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
